@@ -28,7 +28,7 @@ namespace ConsoleApp1.Models
                 m.HasMany(c => c.Books)
                     .WithMany(c => c.Authors)
                     .UsingEntity<AuthorBook>(
-                        a => a.HasOne<Author>().WithMany(), 
+                        a => a.HasOne<Author>().WithMany(),
                         b => b.HasOne<Book>().WithMany()
                     );
             });
