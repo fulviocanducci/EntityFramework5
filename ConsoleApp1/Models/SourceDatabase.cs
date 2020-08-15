@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
+//https://ralms.net/ef5/entity%20framework%20core/many-to-many-efcore5/?fbclid=IwAR2nqwsr5OTPOWuI9cZmk8Raj5KvwOsuTCBP9r_2CNtYHehiq4eop6SuCQg
 namespace ConsoleApp1.Models
 {
     public sealed class SourceDatabase : DbContext
