@@ -1,17 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 //https://ralms.net/ef5/entity%20framework%20core/many-to-many-efcore5/?fbclid=IwAR2nqwsr5OTPOWuI9cZmk8Raj5KvwOsuTCBP9r_2CNtYHehiq4eop6SuCQg
 namespace ConsoleApp1.Models
 {
     public sealed class SourceDatabase : DbContext
     {
         public DbSet<Author> Author { get; set; }
-        //public DbSet<AuthorBook> AuthorBook { get; set; }
-        public DbSet<Book> Book { get; set; }
+        public DbSet<Book> Book { get; set; }        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = ./dbase.db");
+            optionsBuilder.UseSqlite("Data Source = C:/Users/Developer/source/repos/dbase.db")
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,11 +28,7 @@ namespace ConsoleApp1.Models
                     .HasMaxLength(200)
                     .IsRequired();
                 m.HasMany(c => c.Books)
-                    .WithMany(c => c.Authors)
-                    .UsingEntity<AuthorBook>(
-                        a => a.HasOne<Author>().WithMany(),
-                        b => b.HasOne<Book>().WithMany()
-                    );
+                    .WithMany(c => c.Authors);
             });
 
             modelBuilder.Entity<Book>(m =>
@@ -43,7 +41,7 @@ namespace ConsoleApp1.Models
                     .HasMaxLength(200)
                     .IsRequired();
                 m.HasMany(c => c.Authors)
-                    .WithMany(c => c.Books);
+                    .WithMany(c => c.Books).;
             });
         }
     }
